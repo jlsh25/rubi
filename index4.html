@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✨ Para July ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital@0;1&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a12;
+    --card: #11111e;
+    --accent1: #e84393;
+    --accent2: #7b2fff;
+    --accent3: #00e5c4;
+    --gold: #f0c040;
+    --text: #f0eaf8;
+    --muted: #8a7fa0;
+    --glow1: rgba(232,67,147,0.35);
+    --glow2: rgba(123,47,255,0.3);
+    --glow3: rgba(0,229,196,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--accent1);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s, background 0.2s;
+    box-shadow: 0 0 16px var(--accent1);
+  }
+  .cursor-trail {
+    position: fixed;
+    width: 28px; height: 28px;
+    border: 1.5px solid var(--accent2);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: left 0.12s ease, top 0.12s ease;
+    opacity: 0.7;
+  }
+
+  /* Particle canvas */
+  #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 1;
+    padding: 2rem;
+  }
+
+  .hero-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,67,147,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(123,47,255,0.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: gridMove 20s linear infinite;
+  }
+
+  @keyframes gridMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 40px 40px; }
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--glow1) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.8; }
+    50% { transform: translate(-50%,-50%) scale(1.15); opacity: 1; }
+  }
+
+  .title-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--accent3);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    animation: fadeDown 1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 9vw, 7rem);
+    font-style: italic;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeDown 1s 0.2s ease both;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    animation: fadeDown 1s 0.4s ease both;
+    margin-bottom: 2.5rem;
+  }
+
+  .scroll-hint {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.3em;
+    animation: fadeDown 1s 0.8s ease both, blink 2s 2s ease-in-out infinite;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  @keyframes fadeDown {
+    from { opacity:0; transform:translateY(-20px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+
+  /* SECRET EMOJI */
+  .secret-emoji {
+    font-size: 1.8rem;
+    cursor: none;
+    transition: transform 0.2s;
+    animation: float 3s ease-in-out infinite;
+    user-select: none;
+    margin: 0.3rem;
+    display: inline-block;
+  }
+  .secret-emoji:hover { transform: scale(1.4) rotate(15deg); }
+  @keyframes float {
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-8px)}
+  }
+
+  .secret-message {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%) scale(0);
+    background: linear-gradient(135deg, #11111e, #1a0a2e);
+    border: 1px solid var(--accent2);
+    border-radius: 20px;
+    padding: 2.5rem 3rem;
+    z-index: 100;
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 0 60px var(--glow2), 0 0 120px var(--glow1);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .secret-message.show { transform: translate(-50%,-50%) scale(1); }
+  .secret-message h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--accent1);
+    margin-bottom: 0.8rem;
+  }
+  .secret-message p {
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 0.82rem;
+  }
+  .secret-message .close-btn {
+    margin-top: 1.5rem;
+    background: none;
+    border: 1px solid var(--accent2);
+    color: var(--accent2);
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    cursor: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .secret-message .close-btn:hover { background: var(--accent2); color: #fff; }
+
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    display: none;
+  }
+  .overlay.show { display: block; }
+
+  /* SECTIONS */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--accent3);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, var(--accent1), transparent);
+    margin-top: 0.6rem;
+  }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 1.8rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    cursor: none;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--glow1), var(--glow2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card:hover { transform: translateY(-6px); border-color: var(--accent1); }
+  .card:hover { box-shadow: 0 20px 60px var(--glow1); }
+  .card:hover::before { opacity: 1; }
+
+  .card-icon { font-size: 2.2rem; margin-bottom: 1rem; display: block; }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text); position: relative; }
+  .card-text { font-size: 0.78rem; color: var(--muted); line-height: 1.7; position: relative; }
+
+  /* STATS (Math fun) */
+  .stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .stat-box {
+    flex: 1;
+    min-width: 160px;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 1.8rem;
+    border: 1px solid rgba(255,255,255,0.06);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+  }
+  .stat-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.2em; margin-top: 0.3rem; }
+  .stat-box .bar {
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    border-radius: 2px;
+    margin-top: 1rem;
+    transform-origin: left;
+    animation: growBar 1.5s ease both;
+  }
+  @keyframes growBar { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+
+  /* ANIME SECTION */
+  .beastars-card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 2.5rem;
+    border: 1px solid rgba(232,67,147,0.2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .beastars-card::before {
+    content: 'BEASTARS';
+    position: absolute;
+    right: -20px; top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 5rem;
+    color: rgba(232,67,147,0.05);
+    letter-spacing: 0.2em;
+    pointer-events: none;
+  }
+  .beastars-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .beastars-quote span { color: var(--accent1); }
+  .beastars-info { font-size: 0.78rem; color: var(--muted); line-height: 1.8; }
+  .tag-pill {
+    display: inline-block;
+    background: rgba(232,67,147,0.15);
+    border: 1px solid rgba(232,67,147,0.3);
+    color: var(--accent1);
+    border-radius: 50px;
+    padding: 0.25rem 0.8rem;
+    font-size: 0.7rem;
+    margin: 0.2rem;
+  }
+
+  /* KDRAMA */
+  .kdrama-scroll {
+    display: flex;
+    gap: 1.2rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent2) transparent;
+  }
+  .kdrama-card {
+    min-width: 180px;
+    background: var(--card);
+    border-radius: 14px;
+    padding: 1.5rem 1.2rem;
+    border: 1px solid rgba(123,47,255,0.2);
+    flex-shrink: 0;
+    text-align: center;
+    transition: transform 0.3s, border-color 0.3s;
+    cursor: none;
+  }
+  .kdrama-card:hover { transform: translateY(-6px); border-color: var(--accent2); }
+  .kdrama-card .emoji { font-size: 2.5rem; margin-bottom: 0.8rem; display: block; }
+  .kdrama-card .name { font-family: 'Playfair Display', serif; font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .kdrama-card .genre { font-size: 0.7rem; color: var(--muted); }
+
+  /* HORROR */
+  .horror-section {
+    background: linear-gradient(135deg, rgba(10,10,18,0) 0%, rgba(30,5,15,0.8) 100%);
+    border: 1px solid rgba(232,67,147,0.1);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .horror-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 50%, rgba(232,67,147,0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(123,47,255,0.05) 0%, transparent 50%);
+  }
+  .horror-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-style: italic;
+    color: var(--accent1);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 40px var(--glow1);
+    position: relative;
+    animation: flicker 5s ease-in-out infinite;
+  }
+  @keyframes flicker {
+    0%,90%,100%{opacity:1}
+    91%{opacity:0.8}
+    93%{opacity:1}
+    95%{opacity:0.6}
+    97%{opacity:1}
+  }
+  .horror-text { font-size: 0.85rem; color: var(--muted); line-height: 1.8; max-width: 500px; margin: 0 auto; position: relative; }
+
+  /* VOLLEYBALL INTERACTIVE */
+  .vball-container {
+    position: relative;
+    height: 200px;
+    background: var(--card);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: none;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0,229,196,0.15);
+  }
+  .vball {
+    position: absolute;
+    width: 50px; height: 50px;
+    font-size: 2.5rem;
+    line-height: 50px;
+    text-align: center;
+    cursor: none;
+    user-select: none;
+    transition: none;
+  }
+  .vball-net {
+    position: absolute;
+    left: 50%; top: 0;
+    width: 2px; height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--accent3), transparent);
+    transform: translateX(-50%);
+  }
+  .vball-score {
+    position: absolute;
+    bottom: 1rem;
+    width: 100%;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--accent3);
+    letter-spacing: 0.2em;
+  }
+  .vball-hint {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 0.75rem;
+    color: var(--muted);
+    pointer-events: none;
+    text-align: center;
+    letter-spacing: 0.15em;
+  }
+
+  /* DANCE SECTION */
+  .dance-emojis {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 2rem 0;
+  }
+  .dance-e {
+    font-size: 3rem;
+    animation: danceMoves 2s ease-in-out infinite;
+    cursor: none;
+  }
+  .dance-e:nth-child(1){animation-delay:0s}
+  .dance-e:nth-child(2){animation-delay:0.2s}
+  .dance-e:nth-child(3){animation-delay:0.4s}
+  .dance-e:nth-child(4){animation-delay:0.6s}
+  .dance-e:nth-child(5){animation-delay:0.8s}
+  @keyframes danceMoves {
+    0%{transform:translateY(0) rotate(0deg)}
+    25%{transform:translateY(-12px) rotate(10deg)}
+    50%{transform:translateY(0) rotate(0deg)}
+    75%{transform:translateY(-8px) rotate(-10deg)}
+    100%{transform:translateY(0) rotate(0deg)}
+  }
+
+  /* ENGLISH SECTION */
+  .english-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 2rem;
+    border-left: 3px solid var(--accent3);
+    margin-bottom: 1.2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .english-card:hover { transform: translateX(6px); }
+  .english-card .quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.05rem; color: var(--text); margin-bottom: 0.5rem; }
+  .english-card .translation { font-size: 0.75rem; color: var(--accent3); letter-spacing: 0.1em; }
+
+  /* MATH QUIZ */
+  .math-quiz {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    border: 1px solid rgba(0,229,196,0.15);
+  }
+  .math-problem {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--accent3);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1em;
+  }
+  .math-options {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .math-btn {
+    background: rgba(0,229,196,0.08);
+    border: 1px solid rgba(0,229,196,0.25);
+    color: var(--text);
+    padding: 0.7rem 1.8rem;
+    border-radius: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    cursor: none;
+    transition: all 0.2s;
+  }
+  .math-btn:hover { background: rgba(0,229,196,0.2); border-color: var(--accent3); }
+  .math-btn.correct { background: rgba(0,229,196,0.3); border-color: var(--accent3); color: var(--accent3); }
+  .math-btn.wrong { background: rgba(232,67,147,0.2); border-color: var(--accent1); color: var(--accent1); }
+  .math-result { font-size: 0.85rem; min-height: 1.5rem; margin-top: 0.5rem; transition: all 0.3s; }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 4rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  footer p { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.2em; }
+  footer .big-heart {
+    font-size: 4rem;
+    animation: heartbeat 1.5s ease-in-out infinite;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  @keyframes heartbeat {
+    0%,100%{transform:scale(1)}
+    14%{transform:scale(1.3)}
+    28%{transform:scale(1)}
+    42%{transform:scale(1.2)}
+    70%{transform:scale(1)}
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+    margin: 0 auto;
+    max-width: 400px;
+    margin-bottom: 5rem;
+  }
+
+  /* RESPONSIVE */
+  @media(max-width:600px){
+    .beastars-card { grid-template-columns: 1fr; }
+    .stats-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+<canvas id="particles"></canvas>
+
+<!-- Overlay for secret messages -->
+<div class="overlay" id="overlay" onclick="closeSecret()"></div>
+
+<!-- Secret message popup -->
+<div class="secret-message" id="secretMsg">
+  <h3 id="secretTitle">🌙 Mensaje Secreto</h3>
+  <p id="secretText"></p>
+  <button class="close-btn" onclick="closeSecret()">× cerrar</button>
+</div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+  <p class="title-label">✦ un universo hecho para ti ✦</p>
+  <h1 class="hero-title">Para Rubi</h1>
+  <p class="hero-sub">// volleyball · dance · math · anime · horror · k-drama</p>
+  <div style="margin-bottom:2rem">
+    <span class="secret-emoji" onclick="showSecret('wolf')" title="toca aquí...">🐺</span>
+    <span class="secret-emoji" onclick="showSecret('star')" style="animation-delay:0.5s">⭐</span>
+    <span class="secret-emoji" onclick="showSecret('moon')" style="animation-delay:1s">🌙</span>
+    <span class="secret-emoji" onclick="showSecret('cherry')" style="animation-delay:1.5s">🍒</span>
+    <span class="secret-emoji" onclick="showSecret('ghost')" style="animation-delay:0.3s">👻</span>
+  </div>
+  <p class="scroll-hint">↓ scroll para explorar ↓</p>
+</section>
+
+<!-- ═══════════════ WHO SHE IS ═══════════════ -->
+<section class="section">
+  <p class="section-tag">// 01 — mundo propio</p>
+  <h2 class="section-title">Quién eres</h2>
+  <div class="cards-grid">
+    <div class="card">
+      <span class="card-icon">🏐</span>
+      <h3 class="card-title">Atleta del equipo</h3>
+      <p class="card-text">El voleibol no es solo un deporte — es coordinación, instinto y trabajo en equipo. Cada salto es tuyo.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">💃</span>
+      <h3 class="card-title">El cuerpo que baila</h3>
+      <p class="card-text">Tienes super pero demasiado talento osea y es que lo haces tan natural me gusta me gusta.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔢</span>
+      <h3 class="card-title">Mente Increíble</h3>
+      <p class="card-text">La verdad nunca me espere conocer a alguien como tu y es que tienes tantas cosas que hasta podria sacarse un libro y ni aun asi las palabras alcanzarian para describir lo increible que eres. </p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🇬🇧</span>
+      <h3 class="card-title">Bilingual brain</h3>
+      <p class="card-text">Your English is sharp and it shows. Two languages, double the worlds you can explore.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎌</span>
+      <h3 class="card-title">Otaku & K-drama lover</h3>
+      <p class="card-text">Anime, dramas coreanos, mundos de fantasía — ajsjasjsa osea no podrias ser mejor osea 100/10.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🩸</span>
+      <h3 class="card-title">Terror sin miedo</h3>
+      <p class="card-text">Le das la bienvenida al susto. El terror es tuyo — el adrenalina, el misterio, la oscuridad que fascina.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ VOLLEYBALL GAME ═══════════════ -->
+<section class="section">
+  <p class="section-tag">// 02 — cancha virtual</p>
+  <h2 class="section-title">Toca la pelota 🏐</h2>
+  <div class="vball-container" id="vballContainer" onclick="hitBall()">
+    <div class="vball-net"></div>
+    <div class="vball" id="vball">🏐</div>
+    <div class="vball-score" id="vballScore">TOCA LA PELOTA ↑</div>
+    <div class="vball-hint" id="vballHint">click aquí para jugar</div>
+  </div>
+  <p style="font-size:0.75rem; color:var(--muted); text-align:center; margin-top:-1rem">¡Haz click para darle a la pelota! La arena te espera.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ MATH QUIZ ═══════════════ -->
+<section class="section">
+  <p class="section-tag">// 03 — reto matemático</p>
+  <h2 class="section-title">Demo tu nivel 🔢</h2>
+  <div class="math-quiz">
+    <p id="mathQ" class="math-problem">x² + 5x + 6 = 0 → x = ?</p>
+    <div class="math-options" id="mathOpts">
+      <button class="math-btn" onclick="checkMath(this, false)">x = 1, 6</button>
+      <button class="math-btn" onclick="checkMath(this, true)">x = -2, -3</button>
+      <button class="math-btn" onclick="checkMath(this, false)">x = 2, 3</button>
+      <button class="math-btn" onclick="checkMath(this, false)">x = -1, -6</button>
+    </div>
+    <p class="math-result" id="mathResult"></p>
+  </div>
+  <div class="stats-row">
+    <div class="stat-box">
+      <span class="stat-number" id="countDown">9°</span>
+      <span class="stat-label">GRADO ACTUAL</span>
+      <div class="bar" style="width:72%"></div>
+    </div>
+    <div class="stat-box">
+      <span class="stat-number">∞</span>
+      <span class="stat-label">POTENCIAL</span>
+      <div class="bar" style="width:100%"></div>
+    </div>
+    <div class="stat-box">
+      <span class="stat-number">100</span>
+      <span class="stat-label">NIVEL MATH</span>
+      <div class="bar" style="width:85%"></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ ANIME / BEASTARS ═══════════════ -->
+<section class="section">
+  <p class="section-tag">// 04 — anime world</p>
+  <h2 class="section-title">Beastars & más 🎌</h2>
+  <div class="beastars-card">
+    <div>
+      <p class="beastars-quote">
+        "<span>Even a herbivore</span> can have the heart of a <span>predator</span>."
+      </p>
+      <br>
+      <p style="font-size:0.75rem; color:var(--muted); line-height:1.8; font-style:italic">
+        — Legoshi, Beastars
+      </p>
+    </div>
+    <div class="beastars-info">
+      <p style="margin-bottom:1rem">Una historia de instintos, identidad y amor en un mundo donde herbívoros y carnívoros coexisten. <em>Demasiado real para ser solo anime.</em></p>
+      <div>
+        <span class="tag-pill">Drama</span>
+        <span class="tag-pill">Psychológico</span>
+        <span class="tag-pill">Romance</span>
+        <span class="tag-pill">Oscuro</span>
+        <span class="tag-pill">Netflix</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ DANCE ═══════════════ -->
+<section class="section" style="text-align:center">
+  <p class="section-tag">// 05 — ritmo propio</p>
+  <h2 class="section-title" style="display:inline-block">El baile es tuyo 💃</h2>
+  <div class="dance-emojis">
+    <span class="dance-e">💃</span>
+    <span class="dance-e">🎶</span>
+    <span class="dance-e">✨</span>
+    <span class="dance-e">🎵</span>
+    <span class="dance-e">🌟</span>
+  </div>
+  <p style="font-size:0.85rem; color:var(--muted); max-width:500px; margin:0 auto; line-height:1.8">
+    Cada clase es un ensayo de ser tú misma. El cuerpo recuerda lo que la mente olvida — y el baile siempre te devuelve a casa.
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ K-DRAMA ═══════════════ -->
+<section class="section">
+  <p class="section-tag">// 06 — k-drama universe</p>
+  <h2 class="section-title">K-drama vibes 🇰🇷</h2>
+  <p style="font-size:0.72rem; color:var(--accent2); letter-spacing:0.2em; margin-bottom:1rem">✦ toca cada tarjeta para un secreto ✦</p>
+  <div class="kdrama-scroll">
+    <div class="kdrama-card" onclick="showSecret('kdrama_romance')">
+      <span class="emoji">🌸</span>
+      <p class="name">Romance</p>
+      <p class="genre">slow burn & chaos</p>
+    </div>
+    <div class="kdrama-card" onclick="showSecret('kdrama_thriller')">
+      <span class="emoji">🔪</span>
+      <p class="name">Thriller</p>
+      <p class="genre">edge of your seat</p>
+    </div>
+    <div class="kdrama-card" onclick="showSecret('kdrama_historico')">
+      <span class="emoji">👑</span>
+      <p class="name">Histórico</p>
+      <p class="genre">Joseon vibes</p>
+    </div>
+    <div class="kdrama-card" onclick="showSecret('kdrama_school')">
+      <span class="emoji">🏫</span>
+      <p class="name">School</p>
+      <p class="genre">too relatable</p>
+    </div>
+    <div class="kdrama-card" onclick="showSecret('kdrama_fantasia')">
+      <span class="emoji">🌙</span>
+      <p class="name">Fantasía</p>
+      <p class="genre">magic & mystery</p>
+    </div>
+    <div class="kdrama-card" onclick="showSecret('kdrama_melodrama')">
+      <span class="emoji">😭</span>
+      <p class="name">Melodrama</p>
+      <p class="genre">cry at 2am</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ ENGLISH QUOTES ═══════════════ -->
+<section class="section">
+  <p class="section-tag">// 07 — in your language</p>
+  <h2 class="section-title">Words for you ✍️</h2>
+  <div class="english-card">
+    <p class="quote">"She is clothed in strength and dignity, and she laughs without fear of the future."</p>
+    <p class="translation">— total para  ti</p>
+  </div>
+  <div class="english-card">
+    <p class="quote">"The most courageous act is still to think for yourself. Aloud."</p>
+    <p class="translation">— Coco Chanel · porque tienes voz</p>
+  </div>
+  <div class="english-card">
+    <p class="quote">"Not all those who wander are lost."</p>
+    <p class="translation">— Tolkien · porque explorar está bien</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ HORROR ═══════════════ -->
+<section class="section">
+  <p class="section-tag">// 08 — dark side</p>
+  <h2 class="section-title">El terror que amas 🩸</h2>
+  <div class="horror-section">
+    <h3 class="horror-title">Welcome to the dark.</h3>
+    <p class="horror-text">
+      El terror no es debilidad — es valentía disfrazada de adrenalina. 
+      Tú no le huyes al miedo, lo miras fijo a los ojos y le sonríes. 
+      Eso dice mucho de quién eres.
+    </p>
+    <div style="margin-top:2rem; font-size:2.5rem; letter-spacing:1rem; position:relative">
+      <span onclick="showSecret('horror')" style="cursor:none">🩸</span>
+      <span style="animation:float 2s 0.5s ease-in-out infinite; display:inline-block">👁️</span>
+      <span style="animation:float 2s 1s ease-in-out infinite; display:inline-block">🌑</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <span class="big-heart">💗</span>
+  <p style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.1rem; margin-bottom:0.5rem; color:var(--text)">
+    Hecha de magia, ritmo y código.
+  </p>
+  <p>// todo esto es tuyo · toca 🐺⭐🌙🍒👻 y las tarjetas k-drama para secretos</p>
+</footer>
+
+<script>
+// ─── CURSOR ───
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursorTrail');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    trail.style.left = e.clientX + 'px';
+    trail.style.top = e.clientY + 'px';
+  }, 80);
+});
+
+// ─── PARTICLES ───
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+for (let i = 0; i < 60; i++) {
+  particles.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.5 + 0.3,
+    dx: (Math.random() - 0.5) * 0.3,
+    dy: (Math.random() - 0.5) * 0.3,
+    color: ['#e84393','#7b2fff','#00e5c4','#f0c040'][Math.floor(Math.random()*4)],
+    alpha: Math.random() * 0.5 + 0.1
+  });
+}
+
+function animParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.alpha;
+    ctx.fill();
+    p.x += p.dx; p.y += p.dy;
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+  });
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+
+// ─── SECRET MESSAGES ───
+const secrets = {
+  wolf: {
+    title: '🐺 Beastars te eligió',
+    text: 'Legoshi, Louis, Haru... esa historia es increible gracias por recomendarmela es tan wow desde el inicio supe que tus gustos eran unicos y super woww pero ya veo que es demasiado especial. No es solo anime es la mezcla de muchos sentimientos y si te gusta lo vere por ti de hecho cualquier cosa que te guste y de la que no sepa la vere por ti .'
+  },
+  star: {
+    title: '⭐ Lo que eres',
+    text: 'Voleibol + baile + matemáticas + dos idiomas + anime + terror = una persona absolutamente extraordinaria. No hay otra combinación igual en el mundo. Esa eres tú.'
+  },
+  moon: {
+    title: '🌙 Mensaje de medianoche',
+    text: '"The moon does not fight. It attacks no one. It does not worry. It does not try to crush others. It keeps to its course, but by its very nature, it gently influences."  — Deng Ming-Dao\n\nAl igual que la luna, tienes una fuerza silenciosa que mueve mareas.'
+  },
+  cherry: {
+    title: '🍒 Cosa favorita',
+    text: 'Hay algo en ti que es como una cereza al final de un helado,el detalle que hace que todo tenga sentido. Ese entusiasmo, esa energía, esa manera de seguir como una guerrerita,No lo pierdas nunca.'
+  },
+  ghost: {
+    title: '👻 Terror-approved',
+    text: '"The oldest and strongest emotion of mankind is fear, and the oldest and strongest kind of fear is fear of the unknown." — H.P. Lovecraft\n\nY tú, que le sonríes al miedo, eres más valiente que la mayoría.'
+  },
+  horror: {
+    title: '🩸 Código rojo',
+    text: 'Si puedes ver una película de terror sola a las 2am, puedes hacer cualquier cosa. El miedo es solo adrenalina que tu cuerpo no sabe cómo clasificar — y tú ya aprendiste a disfrutarlo. That\'s a superpower.'
+  },
+  kdrama_romance: {
+    title: '🌸 El slow burn te eligió',
+    text: 'La verdad no entiendo mucho de k-dramas he visto pocos jasjajsa pero los que he visto han sido mas de romance aunuqe no me han gustado por triangulos amorosos pero de resto solo puedo decir epico wow increible aluscinante, "Some people look for a beautiful place. Others make a place beautiful." — Hazrat Inayat Khan'
+  },
+  kdrama_thriller: {
+    title: '🔪 Adrenalina coreana',
+    text: 'Thriller coreano hits different — los giros de trama, bueno estos me gustan mas aunque he visto solo el juego del calamar y mas que todo peliculas que ni recuerdo el nombre pero absolutas joyitas eso si saben hacer los coreanos jssjjsjs ".'
+  },
+  kdrama_historico: {
+    title: '👑 Joseon mode ON',
+    text: 'Los dramas históricos coreanos son algo que ni yo sabia que habia osea noooonono pero bueno quien sabe entonces solo digo sin palabras asjsajsaj podria ser épico.'
+  },
+  kdrama_school: {
+    title: '🏫 Too real',
+    text: 'Los dramas de escuela coreanos son algo raro aveces ajjasj pueden ser exagerados pero muchas veces si enganchan bueno igual todos en nuestra vida tenemos en algun momento un drama pero a ver tiro factito asjsajjas es que tu eres la prota y ni sabias por eso tan pro.'
+  },
+  kdrama_fantasia: {
+    title: '🌙 Magic & mystery',
+    text: 'Portales, dioses, viajes en el tiempo. honestamente tambien ni ideaa jasja no he visto ninguno pero un dia de estos toca mirar que tal puede ser bueno igual yo veo es de fantasia normalita jasjsa gringuita'
+  },
+  kdrama_melodrama: {
+    title: '😭 Cry at 2am club',
+    text: 'Bueno este si creo que es lo mas triste de triste que hay creo he escuchado jasjsajs y tambien si mal no me falla la mente alguna vez vi uno y demasiado sad.'
+  }
+};
+
+function showSecret(key) {
+  const s = secrets[key];
+  document.getElementById('secretTitle').textContent = s.title;
+  document.getElementById('secretText').textContent = s.text;
+  document.getElementById('secretMsg').classList.add('show');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeSecret() {
+  document.getElementById('secretMsg').classList.remove('show');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ─── VOLLEYBALL MINI GAME ───
+let ballX = 80, ballY = 80;
+let velX = 3.5, velY = 2.5;
+let vScore = 0;
+let gameRunning = false;
+let animFrame;
+
+const ball = document.getElementById('vball');
+const container = document.getElementById('vballContainer');
+const scoreEl = document.getElementById('vballScore');
+const hintEl = document.getElementById('vballHint');
+
+function startVball() {
+  if (gameRunning) return;
+  gameRunning = true;
+  hintEl.style.display = 'none';
+  vScore = 0;
+  ballX = 80; ballY = 80;
+  velX = 3.5; velY = 2.5;
+  moveBall();
+}
+
+function moveBall() {
+  const cw = container.offsetWidth;
+  const ch = container.offsetHeight;
+  ballX += velX; ballY += velY;
+  if (ballX < 10) { ballX = 10; velX = Math.abs(velX); bounce(); }
+  if (ballX > cw - 60) { ballX = cw - 60; velX = -Math.abs(velX); bounce(); }
+  if (ballY < 10) { ballY = 10; velY = Math.abs(velY); bounce(); }
+  if (ballY > ch - 60) { ballY = ch - 60; velY = -Math.abs(velY); bounce(); }
+  ball.style.left = ballX + 'px';
+  ball.style.top = ballY + 'px';
+  animFrame = requestAnimationFrame(moveBall);
+}
+
+function bounce() {
+  ball.style.transform = 'scale(1.3)';
+  setTimeout(() => ball.style.transform = 'scale(1)', 150);
+}
+
+function hitBall() {
+  if (!gameRunning) { startVball(); return; }
+  const rect = container.getBoundingClientRect();
+  // Apply random impulse
+  velX = (Math.random() - 0.5) * 8;
+  velY = -(Math.random() * 4 + 3);
+  vScore++;
+  scoreEl.textContent = `PUNTOS: ${vScore} ✨`;
+  bounce();
+  // Particle burst at ball location
+  createBurst(ballX + 25, ballY + 25);
+}
+
+function createBurst(x, y) {
+  const c = document.createElement('div');
+  c.style.cssText = `
+    position:absolute; left:${x}px; top:${y}px; width:6px; height:6px;
+    background:var(--accent1); border-radius:50%; pointer-events:none;
+    animation: burst 0.6s ease forwards; z-index:10;
+  `;
+  container.appendChild(c);
+  setTimeout(() => c.remove(), 600);
+}
+
+// ─── MATH QUIZ ───
+let mathAnswered = false;
+function checkMath(btn, isCorrect) {
+  if (mathAnswered) return;
+  mathAnswered = true;
+  const res = document.getElementById('mathResult');
+  if (isCorrect) {
+    btn.classList.add('correct');
+    res.textContent = '✓ Correcto! x² + 5x + 6 = (x+2)(x+3) → x = -2 o x = -3 🎉';
+    res.style.color = 'var(--accent3)';
+  } else {
+    btn.classList.add('wrong');
+    res.textContent = '✗ Casi! La respuesta es x = -2, -3. Factorizando: (x+2)(x+3)=0';
+    res.style.color = 'var(--accent1)';
+    document.querySelectorAll('.math-btn').forEach(b => {
+      if (b.textContent.includes('-2')) b.classList.add('correct');
+    });
+  }
+  setTimeout(() => {
+    mathAnswered = false;
+    res.textContent = '';
+    document.querySelectorAll('.math-btn').forEach(b => {
+      b.classList.remove('correct','wrong');
+    });
+  }, 3500);
+}
+
+// ─── BURST ANIMATION ───
+const style = document.createElement('style');
+style.textContent = `
+@keyframes burst {
+  0%{transform:scale(0);opacity:1}
+  100%{transform:scale(4) translateY(-30px);opacity:0}
+}`;
+document.head.appendChild(style);
+</script>
+ <audio id="musica" src="Kimetsu no Yaiba - Tanjirou no Uta - Loop - 1HR [JEXa-qvYa1Y].mp3"></audio>
+
+<script>
+document.addEventListener("click", () => {
+    const audio = document.getElementById("musica");
+    audio.volume = 0.6; // opcional
+    audio.play();
+}, { once: true });
+</script>
+
+    <audio id="musica" src="Kimetsu no Yaiba - Tanjirou no Uta - Loop - 1HR [JEXa-qvYa1Y].mp3"></audio>
+
+    <script>
+
+document.addEventListener("click", () => {
+    const audio = document.getElementById("musica");
+    audio.volume = 0.6; // opcional
+    audio.play();
+}, { once: true });
+</script>
+</body>
+</html>

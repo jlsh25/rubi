@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refugio para Ella</title>
+    <style>
+        :root {
+            --neon-purple: #bc13fe;
+            --neon-blue: #08f7fe;
+            --gold: #ffac33;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0b0e14; /* Fondo oscuro tipo anime nocturno */
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Fondo de estrellas animadas */
+        #canvas-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(20, 20, 25, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--neon-purple);
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.2);
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px var(--neon-blue);
+            margin-bottom: 10px;
+        }
+
+        /* Mini Juego */
+        #game-area {
+            width: 100%;
+            height: 150px;
+            border: 1px dashed #444;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: crosshair;
+        }
+
+        .star-target {
+            position: absolute;
+            font-size: 25px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        /* Buzón de Mensajes */
+        #message-display {
+            min-height: 120px;
+            margin-top: 20px;
+            padding: 15px;
+            border-left: 3px solid var(--neon-blue);
+            background: rgba(255, 255, 255, 0.05);
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s;
+        }
+
+        .btn-interact {
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-interact:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        /* Easter Egg */
+        .secret-emoji {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 12px;
+            opacity: 0.3;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas-stars"></canvas>
+
+    <div class="container">
+        <h1>Tu Espacio Especial ✨</h1>
+        <p style="font-size: 0.9rem; color: #aaa;">Si no estoy para responderte, atrapa una estrella y lee lo que tengo para ti.</p>
+
+        <div id="game-area">
+            <div id="instruction" style="margin-top: 60px; color: #666;">¡Toca las estrellas fugaces!</div>
+        </div>
+
+        <div id="message-display">
+            "Haz clic en una estrella o en el botón de abajo para empezar..."
+        </div>
+
+        <button class="btn-interact" onclick="generateMessage()">Dame una frase</button>
+    </div>
+
+    <div class="secret-emoji" onclick="showSecret()">🐺</div>
+    
+    
+
+    <script>
+        const messages = [
+            "Eres tan increíble  y talentosa ajsjas con solo saber que eres buena en ingles y matemáticas y como resuelves las cosas solo me queda admirar esa inteligencia que tienes.",
+            "Verte bailar aunque nunca he podido verte en persona y solo en tus historias es como ver una escena de un anime lo haces con tanto estilo con tanta pasión que es como si flotaras es increible .",
+            "In case you forgot You are the most talented person I know. Your skills are great, but your heart is even better.",
+            "En la cancha de voley se que eres asombrosa que la das toda siempre cada cosa que haces solo me impresiona cada vez mas",
+            "Sé que a veces el colegio o las clases de baile cansan, pero recuerda que eres capaz de dominar cualquier ritmo y cualquier número.",
+            "Eres una mezcla perfecta de misterio de K-Drama y la valentía de un personaje de Beastars. Nunca dejes de ser tú.",
+            "Aunque te guste el terror, lo único que no me da miedo es el futuro porque ya contigo en mi vida que preocupacion podria tener,  Eres increíble, mi July.",
+            "¿Sabías que tu disciplina en el equipo de voley es lo que más admiro de ti? Eres pura constancia.",
+            "Sometimes life gets hard, but remember that you're smarter than any problem in your textbook. I believe in you.",
+            "Haz de cuenta que eres como mi episodio favorito de algun anime, ese que vería una y otra vez sin cansarme nunca. Exactamente así eres tú para mí, alguien con quien quiero hablar siempre asi que no soy abandonico ajsjasj."                             
+        ];
+
+        const display = document.getElementById('message-display');
+        const gameArea = document.getElementById('game-area');
+
+        function generateMessage() {
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            display.style.animation = 'none';
+            display.offsetHeight; /* trigger reflow */
+            display.style.animation = 'fadeIn 0.5s';
+            display.innerHTML = randomMsg;
+        }
+
+        // Sistema de juego (estrellas fugaces)
+        function spawnStar() {
+            const star = document.createElement('div');
+            star.className = 'star-target';
+            star.innerHTML = '⭐';
+            star.style.left = Math.random() * 90 + '%';
+            star.style.top = Math.random() * 80 + '%';
+            
+            star.onclick = () => {
+                generateMessage();
+                star.remove();
+            };
+
+            gameArea.appendChild(star);
+            
+            setTimeout(() => { if(star) star.remove(); }, 3000);
+        }
+
+        setInterval(spawnStar, 2000);
+
+        function showSecret() {
+            alert("¡Mensaje Secreto! 🐺: Eres la Legoshi de mi mundo (fuerte y de gran corazón). ¡Te quiero!");
+        }
+
+        // Fondo de estrellas
+        const canvas = document.getElementById('canvas-stars');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const starsArray = [];
+        for(let i=0; i<150; i++) {
+            starsArray.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speed: Math.random() * 0.5
+            });
+        }
+
+        function animateStars() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            starsArray.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+                ctx.fill();
+                s.y += s.speed;
+                if(s.y > canvas.height) s.y = 0;
+            });
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+    </script>
+
+    <script>
+        function irAFinal() {
+            window.location.href = 'index4.html';
+        }
+    </script>
+     </script>
+    <audio id="musica" src="The First I Love You (Orchestral Version) - 1 HOUR [zZXEngHeUPY].mp3"></audio>
+
+<script>
+document.addEventListener("click", () => {
+    const audio = document.getElementById("musica");
+    audio.volume = 0.6; // opcional
+    audio.play();
+}, { once: true });
+</script>
+
+    <audio id="musica" src="The First I Love You (Orchestral Version) - 1 HOUR [zZXEngHeUPY].mp3"></audio>
+
+<script>
+document.addEventListener("click", () => {
+    const audio = document.getElementById("musica");
+    audio.volume = 0.6; // opcional
+    audio.play();
+}, { once: true });
+</script>
+</div>
+</body>
+   <script>
+function irAFinal() {
+    window.location.href = 'index4.html';
+}
+
+document.addEventListener("click", () => {
+    const audio = document.getElementById("musica");
+    audio.volume = 0.6; // opcional
+    audio.play();
+}, { once: true });
+</script>
+
+<div style="position: fixed; bottom: 20px; right: 20px; text-align: center; z-index: 1000;">
+        <button class="btn-siguiente" onclick="irAFinal()">
+          💖¡Tócame!💖
+        </button>
+    </div>
+</body>
+</html>

@@ -20,20 +20,6 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <style>
-  .boton-siguiente {
-    background-color: #ff4757; /* Puedes cambiar el color aquí */
-    color: white;
-    padding: 15px 25px;
-    text-decoration: none;
-    border-radius: 30px;
-    font-weight: bold;
-    display: inline-block;
-  }
-</style>
-
-<a href="index2.html" class="boton-siguiente">Continuar a la siguiente parte</a>
-
     
     body {
       background: var(--cream);
@@ -442,7 +428,7 @@
       
       <a href="index.html" class="magicBtn" 
 
-
+<button class="btn-ingresar" onclick="window.location.href='index.html'">
     💖¡Tócame!💖
 </button>
     <p>🎆 Haz clic en cualquier lugar para la magia 🎆</p>
@@ -669,10 +655,13 @@ document.addEventListener("click", () => {
         document.body.style.opacity = '0';
         document.body.style.transition = 'opacity 0.5s';
         
-
-  <a href="index2.html">Ir a la siguiente parte</a>
+        setTimeout(() => {
+            window.location.href = 'index2.html';
+        }, 500);
+    }
     
 </script>
+
 <button onclick="irAlDashboard()"></button>
 </body>
 </html>
